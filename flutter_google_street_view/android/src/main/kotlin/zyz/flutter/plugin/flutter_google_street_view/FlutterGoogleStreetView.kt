@@ -614,7 +614,8 @@ class FlutterGoogleStreetView(
         )
     }
 
-    override fun onStreetViewPanoramaChange(location: StreetViewPanoramaLocation) {
+    override fun onStreetViewPanoramaChange(location: StreetViewPanoramaLocation?) {
+        
          if (location == null) return
         if (viewReadyResult != null) {
             val hasInitLocation = initOptions?.let { it1 ->
