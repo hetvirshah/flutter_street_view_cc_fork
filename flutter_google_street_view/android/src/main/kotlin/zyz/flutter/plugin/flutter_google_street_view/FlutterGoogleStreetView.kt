@@ -613,14 +613,8 @@ class FlutterGoogleStreetView(
             Convert.streetViewPanoramaCameraToJson(camera)
         )
     }
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-override fun onStreetViewPanoramaChange(location: StreetViewPanoramaLocation) {
-    try {
-        if (location == null) {
-            Log.w("StreetView", "Received null location — skipping")
-            return
-        }
-               if (viewReadyResult != null) {
+    override fun onStreetViewPanoramaChange(location: StreetViewPanoramaLocation) {
+        if (viewReadyResult != null) {
             val hasInitLocation = initOptions?.let { it1 ->
                 it1.panoramaId != null || it1.position != null
             }  ?: false
@@ -635,20 +629,17 @@ override fun onStreetViewPanoramaChange(location: StreetViewPanoramaLocation) {
             )
         } ?: mutableMapOf<String, Any>().apply {
             val errorMsg = if (lastMoveToPos != null)
-                "Oops..., no valid panorama found with position:${lastMoveToPos!!.latitude}, ${lastMoveToPos!!.longitude}, try to change `position`, `radius` or `source`."
+                "Oops..., no valid panorama found with position:${lastMoveToPos!!.latitude}, ${lastMoveToPos!!.longitude}, try to change position, radius or source."
             else if (lastMoveToPanoId != null)
-                "Oops..., no valid panorama found with panoId:$lastMoveToPanoId, try to change `panoId`."
+                "Oops..., no valid panorama found with panoId:$lastMoveToPanoId, try to change panoId."
             else "Oops..., no valid panorama found."
             put("error", errorMsg)
         }
         methodChannel.invokeMethod(
             "pano#onChange", arg
         )
-
-    } catch (e: Exception) {
-        Log.e("StreetView", "Crash prevented in onPanoramaChange: ${e.message}", e)
     }
-}
+  
 
     override fun onStreetViewPanoramaClick(orientation: StreetViewPanoramaOrientation) {
         methodChannel.invokeMethod(
