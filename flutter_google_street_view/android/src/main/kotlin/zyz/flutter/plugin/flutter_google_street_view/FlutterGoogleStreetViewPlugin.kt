@@ -28,6 +28,10 @@ class FlutterGoogleStreetViewPlugin: ActivityLifecycleCallbacks,
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     pluginBinding = flutterPluginBinding
   }
+override fun onStreetViewPanoramaChange(location: StreetViewPanoramaLocation?) {
+    if (location == null) return
+    // proceed safely
+}
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
 
