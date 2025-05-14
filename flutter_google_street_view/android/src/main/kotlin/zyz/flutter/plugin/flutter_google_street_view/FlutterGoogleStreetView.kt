@@ -613,14 +613,14 @@ class FlutterGoogleStreetView(
             Convert.streetViewPanoramaCameraToJson(camera)
         )
     }
-
-    override fun onStreetViewPanoramaChange(location: StreetViewPanoramaLocation?) {
-        
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+override fun onStreetViewPanoramaChange(location: StreetViewPanoramaLocation) {
+    try {
         if (location == null) {
-        Log.w("StreetView", "Received null location in onStreetViewPanoramaChange — skipping")
-        return
+            Log.w("StreetView", "Received null location — skipping")
+            return
         }
-        if (viewReadyResult != null) {
+               if (viewReadyResult != null) {
             val hasInitLocation = initOptions?.let { it1 ->
                 it1.panoramaId != null || it1.position != null
             }  ?: false
@@ -644,7 +644,11 @@ class FlutterGoogleStreetView(
         methodChannel.invokeMethod(
             "pano#onChange", arg
         )
+
+    } catch (e: Exception) {
+        Log.e("StreetView", "Crash prevented in onPanoramaChange: ${e.message}", e)
     }
+}
 
     override fun onStreetViewPanoramaClick(orientation: StreetViewPanoramaOrientation) {
         methodChannel.invokeMethod(
